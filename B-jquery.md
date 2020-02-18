@@ -6,28 +6,26 @@
 - [B.2. la fonction $()](#b2-la-fonction-)
 - [B.3. modifier la page](#b3-modifier-la-page)
 - [B.4. les événements avec jQuery](#b4-les-événements-avec-jquery)
+- [Étape suivante](#Étape-suivante)
 
 ***Ce TP va permettre de connecter notre appli JS à une base de données distante par l'intermédiaire d'une API REST/JSON mettre en oeuvre les principales méthodes de sélection et de modification d'éléments de l'arbre DOM.***
 
 ## B.1. Installation de jQuery
 1. Installez la dernière version stable de jQuery avec la commande npm suivante :
 	```bash
-	cd /chemin/vers/votre/dossier/demarrage
 	npm install --save jquery
 	```
 
 2. **Ouvrez le fichier `package.json` et constatez que jQuery a été ajouté à la liste des dépendances du projet :**
 	```bash
 	  "dependencies": {
-	    "jquery": "^3.3.1"
+	    "jquery": "^3.4.1"
 	  }
 	```
 
 3. **Une fois tout installé, vous pouvez relancer la compilation à l'aide de la commande `npm run watch`**. Vérifiez ensuite que la page s'affiche toujours correctement dans le navigateur :<br>
 
 	<a href="images/readme/pizzaland-ajax-fin.jpg"><img src="images/readme/pizzaland-ajax-fin.jpg" style="max-width:80%;"></a>
-
-	Comme d'habitude, **prenez bien soin de typer <u>toutes</u> vos variables**, paramètres et valeurs de retour des fonctions et méthodes avec Flow et pensez à vérifier **régulièrement** que les types que vous utilisez sont corrects à l'aide de la commande `./node_modules/.bin/flow`
 
 ## B.2. la fonction $()
 **Comme vu en cours, jquery met à disposition une fonction "magique" `$()` qui permet notamment de sélectionner des éléments HTML puis d'y appliquer des modifications.**
@@ -81,7 +79,7 @@
 
 	Comme notre serveur REST se trouve sur notre machine, le délai de chargement est très rapide, on a donc à peine le temps de voir le loader apparaître.
 
-	La solution est d'utiliser le système de bridage de bande passante intégrée aux devtools du navigateur. Par exemple sur Chrome :
+	La solution est d'utiliser le système de bridage de bande passante intégré aux devtools du navigateur. Par exemple sur Chrome :
 
 	<a href="images/readme/chrome-throttle.jpg"><img src="images/readme/chrome-throttle.jpg" style="max-width:80%;"></a>
 
@@ -93,10 +91,6 @@
 	- la fonction passée à `.click()` reçoit en paramètre un objet [event](http://api.jquery.com/category/events/event-object/) avec (comme dans l'API DOM) une propriété [`currentTarget`](http://api.jquery.com/event.currentTarget/) et une méthode [`preventDefault()`](http://api.jquery.com/event.preventDefault/)
 	- l'ouverture d'une popup en JS se fait avec la méthode [`window.open`](https://developer.mozilla.org/en-US/docs/Web/API/Window/open). On peut masquer les barres de menu de la fenêtre et changer la taille de la popup à l'aide d'un 3e paramètre comme celui-ci : `'width=350,height=200,menubar=0,toolbar=0,location=0,personalbar=0,status=0'`
 
-<!--
-## B.5. jQuery & ajax
-ajax pour la liste des ingrédients
 
-redirection vers liste après chargement
-page détail -->
-
+## Étape suivante
+Pour terminer, voyons comment envoyer des données au serveur : [C. POST une pizza](./C-post.md).)

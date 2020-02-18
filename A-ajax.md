@@ -3,35 +3,33 @@
 
 ## Sommaire <!-- omit in toc -->
 - [A.1. Installation](#a1-installation)
+- [A.1. Configuration du projet](#a1-configuration-du-projet)
 - [A.2. XMLHttpRequest vs fetch](#a2-xmlhttprequest-vs-fetch)
 - [A.3. Charger un fichier statique](#a3-charger-un-fichier-statique)
 - [A.4. Appeler une API REST/JSON en GET](#a4-appeler-une-api-restjson-en-get)
-- [A.5. Envoyer des données en POST](#a5-envoyer-des-données-en-post)
 - [Étape suivante](#Étape-suivante)
 
 ***Ce TP va permettre de connecter notre appli JS à une base de données distante par l'intermédiaire d'une API REST/JSON mettre en oeuvre les principales méthodes de sélection et de modification d'éléments de l'arbre DOM.***
 
 ## A.1. Installation
-1. **Récupérez le contenu du dossier `demarrage`, il contient une solution du TP 3 sur l'API DOM qui servira de base pour ce TP sur AJAX.** Comme lors du TP précédent n'oubliez pas de lancer un serveur web dans ce dossier
-	```bash
-	cd /chemin/vers/votre/dossier/demarrage
-	python3 -m http.server 8000
-	```
-	*Si vous avez des questions sur le lancement de ce serveur, ou sur la procédure à suivre dans le cas où vous n'utiliseriez pas les postes des salles de TP mais votre propre machine, relisez attentivement le [README du premier TP](../01-premiers-pas-en-js/README.md#Préparatifs) !*
+## A.1. Configuration du projet
 
-2. **Ouvrez le fichier `package.json` et constatez que Babel, webpack et Flow sont listés dans les dépendances du projet.** Le dossier `demarrage` est en effet **déjà configuré pour l'utilisation de tous les outils nécessaires au dev JS moderne**. On va donc pouvoir tout installer facilement grâce à la commande :
+**Ce repo contient une solution commentée du précédent TP. Il servira de base au T3 :**
+
+1. Clonez le projet
+	```bash
+	mkdir -p ~/ws-js/tp3
+	git clone https://gitlab.univ-lille.fr/js/tp3.git ~/ws-js/tp3
+	```
+2. Lancez VSCodium :
+	```bash
+	codium ~/ws-js/tp3
+	```
+3. Ouvrez un terminal intégré dans VSCodium à l'aide du raccourci <kbd>CTRL</kbd>+<kbd>J</kbd> et tapez :
 	```bash
 	npm install
 	```
-	(à lancer à la racine du dossier de votre projet, cad là où se trouve le fichier `package.json`)
-
-	*Si vous voulez en savoir plus sur le détail de l'installation et de la configuration des différents outils, vous pouvez consulter les TPs précédents : [modules](../02-poo-modules-typage/C-modules.md#c2-rendre-les-modules-compatibles-avec-les-vieux-navigateurs) et [typage](../02-poo-modules-typage/D-typage.md#d1-installation-et-configuration).*
-
-3. **Une fois tout installé, vous pouvez relancer la compilation à l'aide de la commande `npm run watch`**. Vérifiez ensuite que la page s'affiche correctement dans le navigateur :<br>
-
-	<a href="images/pizzaland-apidom-fin.jpg"><img src="images/pizzaland-apidom-fin.jpg" width="80%"></a>
-
-	Tout au long du TP pensez à vérifier **régulièrement** que les types que vous utilisez pour les variables, paramètres et valeurs de retour des fonctions/méthodes, sont corrects à l'aide de la commande `./node_modules/.bin/flow`
+4. **Une fois tout installé, vous pouvez relancer la compilation à l'aide de la commande `npm run watch` et lancer le serveur http avec `npx serve -l 8000`**. Vérifiez ensuite que la page s'affiche correctement dans le navigateur :<br><a href="images/readme/pizzaland-apidom-fin.png"><img src="images/readme/pizzaland-apidom-fin.png" width="80%"></a>
 
 ## A.2. XMLHttpRequest vs fetch
 Comme vu en cours (*récupérez si ce n'est pas déjà fait le pdf sur moodle !*) il existe deux méthodes pour charger/envoyer des données en JS : [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) et l'[API fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
@@ -49,21 +47,22 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 ## A.3. Charger un fichier statique
 **Avant de connecter notre application au serveur REST/JSON, nos allons nous entraîner sur un fichier statique.**
 
-1. **Créez un fichier `news.html` à la racine du dossier `demarrage` avec le code html suivant** :
+1. **Créez un fichier `news.html` à la racine (au même niveau que le `index.html`) avec le code html suivant** :
 	```html
 	<article class="jumbotron">
-	  <h1>Welcome to PizzaLand !</h1>
-	  <p>
-	    Cette semaine découvrez notre nouvelle pizza
-	    <strong class="spicy">
-			Spicy
-			<img src="images/hot.svg" class="spicy-icon" />
-		</strong>
-	    aux délicieuses saveurs épicées !
-	  </p>
+		<button class="closeButton"></button>
+		<h1>Welcome to PizzaLand !</h1>
+		<p>
+			Cette semaine découvrez notre nouvelle pizza
+			<strong class="spicy">
+				Spicy
+				<img src="images/hot.svg" class="spicy-icon" />
+			</strong>
+			aux délicieuses saveurs épicées !
+		</p>
 	</article>
 	```
-2. **Dans le fichier main.js, à la fin du code, lancez le chargement du fichier `news.html` avec l'API fetch** :
+1. **Dans le fichier main.js, à la fin du code, lancez le chargement du fichier `news.html` avec l'API fetch** :
 	```js
 	fetch('./news.html');
 	```
@@ -78,31 +77,31 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 3. **Commencez par inspecter la réponse retournée par `fetch()` grâce à la méthode `.then()`** :
 	```js
 	fetch('./news.html')
-		.then( (response:Response) => console.log(response) );
+		.then( response => console.log(response) );
 	```
 
-	Rechargez la page et regardez ce qui s'affiche dans la console : il s'agit de l'objet de type [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) retourné par l'API fetch.
+	Rechargez la page et regardez ce qui s'affiche dans la console : il s'agit d'un objet de type [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) retourné par l'API fetch.
 
 	Comme vu en cours, cet objet contient notamment des propriétés `ok`, `status` et `statusText` qui permettent d'en savoir plus sur la réponse HTTP retournée par le serveur.
 
 4. **On va maintenant pouvoir récupérer les données brutes contenues dans la réponse HTTP grâce à la méthode [response.text()](https://developer.mozilla.org/en-US/docs/Web/API/Body/text)** :
 	```js
 	fetch('./news.html')
-	  .then( (response:Response) => response.text() )
-	  .then( (responseText:string) => console.log(responseText) );
+	  .then( response => response.text() )
+	  .then( responseText => console.log(responseText) );
 	```
 	Vérifiez que la console affiche bien le contenu HTML du fichier `news.html` :
 
 	<a href="images/readme/ajax-news-html-console.jpg"><img src="images/readme/ajax-news-html-console.jpg" width="80%"></a>
 
-	*Maintenant que l'on est capable de récupérer le contenu du fichier `news.html` il ne reste plus qu'à **l'injecter dans la page HTML** !*
+	*Maintenant que l'on est capable de récupérer le contenu du fichier `news.html` sous forme de chaîne de caractères, il ne reste plus qu'à **l'injecter dans la page HTML** !*
 
 5. **Pour bien comprendre l'ordre d'exécution ajoutons des instructions `console.log()` dans le code précédent comme suit** :
 	```js
 	console.log(1);
 	fetch('./news.html')
-	  .then( (response:Response) => response.text() )
-	  .then( (responseText:string) => console.log(responseText) );
+	  .then( response => response.text() )
+	  .then( responseText => console.log(responseText) );
 	console.log(2);
 	```
     Regardez dans quel ordre s'affichent les log dans la console :
@@ -112,22 +111,28 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 
 	Si vous avez compris, vous pouvez effacer les `console.log` inutiles et passer à la suite. Sinon appelez le professeur !
 
-1. **À l'aide de l'API DOM injectez le contenu du fichier `news.html` dans la section de classe `newsContainer`** (cf. ligne 32 du fichier `index.html`). Plutôt que de tout coder dans le `.then()` on va passer par une nouvelle fonction `displayNews`:
+6. Avant d'injecter le code html dans la page, vous allez devoir faire un peu de ménage  :
+	- dans le fichier `index.html`, supprimez le contenu de la balise `<section class="newsContainer">...</section>`.
+	- Puisque l'on a supprimé le bouton `closeButton` de la page html, le code JS qui détectait le clic dessus ne peut plus fonctionner. Commentez-le, on en aura besoin plus tard.
+
+7. **À l'aide de l'API DOM injectez le contenu du fichier `news.html` dans la section de classe `newsContainer`**. Plutôt que de tout coder dans le `.then()` on va passer par une nouvelle fonction `displayNews`:
 	```js
-	function displayNews(html:string):void {
-	    const newsContainer:?HTMLElement = document.querySelector('.newsContainer');
+	function displayNews(html) {
+	    const newsContainer = document.querySelector('.newsContainer');
 	    if (newsContainer) {
 	        newsContainer.innerHTML = html;
 	    }
 	}
     fetch('./news.html')
-	    .then( (response:Response) => response.text() )
+	    .then( response => response.text() )
 	    .then( displayNews );
 	```
 
 	Le résultat obtenu doit être ceci :
 
 	<a href="images/readme/ajax-news-innerhtml.jpg"><img src="images/readme/ajax-news-innerhtml.jpg" width="80%"></a>
+
+8. Faites en sorte que le clic sur le `closeButton` fonctionne à nouveau
 
 ## A.4. Appeler une API REST/JSON en GET
 **Maintenant que l'on est capables de récupérer une ressource externe en JS et d'en afficher le contenu, connectons notre application au serveur REST développé en cours de programmation répartie !!!**
@@ -139,17 +144,17 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 	```
 3. **Vérifiez que le serveur fonctionne correctement en ouvrant dans votre navigateur la page http://localhost:8080/api/v1/pizzas**
 
-	<a href="images/pizzaland-server-get-pizzas.jpg"><img src="images/pizzaland-server-get-pizzas.jpg" width="80%"></a>
+	<a href="images/readme/pizzaland-server-get-pizzas.jpg"><img src="images/readme/pizzaland-server-get-pizzas.jpg" width="80%"></a>
 
 4. Dans le fichier `main.js` commencez par **supprimer** les lignes suivantes :
-	- ligne 3 :
+	- ligne 1 :
 		```js
 		import data from './data.js';
 		```
-	- lignes 12 et 13 :
+	- lignes 10 et 11 :
 		```js
-		homePage.data = data;
-		PageRenderer.renderPage( homePage ); // liste des vidéos
+		const homePage = new HomePage(data);
+		PageRenderer.renderPage(homePage); // affiche la liste des pizzas
 		```
 5. Toujours dans le fichier `main.js`, à la fin du fichier, lancez un appel AJAX vers l'URL http://localhost:8080/api/v1/pizzas. Puis, en vous inspirant de ce qui a été fait pour les news, créez une fonction `renderHome()` qui :
 	- est appelée lorsque l'appel AJAX est terminé
@@ -166,45 +171,6 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 
 	<a href="images/readme/ajax-get-pizzas-innerhtml.gif"><img src="images/readme/ajax-get-pizzas-innerhtml.gif" width="80%"></a>
 
-## A.5. Envoyer des données en POST
-**Maintenant que l'on arrive à charger des données depuis l'API REST tentons à l'inverse d'envoyer des données au serveur !**
-
-Dans la méthode `submit` (méthode déclenchée à la soumission du formulaire) de la classe `AddPizzaPage`, appelez le webservice `POST` sur `/api/v1/pizzas` afin d'ajouter une nouvelle pizza **avec les informations saisies par l'utilisateur** (uniquement si aucune erreur de saisie n'est détectée !).
-
-La technique à utiliser pour envoyer les données au serveur dépendent de la façon dont est codé le webservice. Ici, le webservice s'attend à recevoir une requête dont le `"Content-Type"` est `"application/json"`. Il faut donc envoyer à fetch une chaîne de caractères encodée en en JSON grâce à [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) :
-
-```js
-fetch(
-	'http://localhost:8080/api/v1/pizzas',
-	{
-		method:'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(pizza)
-	}
-);
-```
-
-Le webservice `POST` `/api/v1/pizzas` s'attend à recevoir en paramètre une chaîne JSON de la forme suivante (*les données doivent être remplacées par celles saisies par l'utilisateur dans le formulaire*) :
-```json
-{
-	"nom":"Savoyarde",
-	"base":"crème",
-	"prix_petite": 8,
-	"prix_grande": 10.5,
-	"ingredients": [7, 8, 9, 12]
-}
-```
-On notera que les prix sont exprimés en nombre et pas en chaînes de caractères et que les ingrédients sont un tableau contenant les ids des ingrédients à associer à la pizza.
-
-Si l'envoi s'est bien passé, le webservice retourne en entête un status `201 Created` et dans le corps de la réponse le JSON correspondant à la pizza créée :
-
-<a href="images/readme/ajax-post-201.jpg"><img src="images/readme/ajax-post-201.jpg" width="80%"></a>
-
-<a href="images/readme/ajax-post-response.jpg"><img src="images/readme/ajax-post-response.jpg" width="80%"></a>
-
-Si tout s'est bien passé, vous pouvez recharger la page et constater que la pizza que vous avez saisie dans le formulaire s'est ajoutée en bas de la liste sur la HomePage :
-
-<a href="images/readme/ajax-post-resultat-liste.jpg"><img src="images/readme/ajax-post-resultat-liste.jpg" width="80%"></a>
 
 ## Étape suivante
 Maintenant que l'on est capable de faire communiquer notre appli JS avec un serveur distant, nous allons voir dans le prochain exercice comment simplifier notre code à l'aide de jQuery : [B. jQuery](./B-jquery.md).)
