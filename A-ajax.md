@@ -142,7 +142,7 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 ## A.4. Appeler une API REST/JSON en GET
 **Maintenant que l'on est capables de récupérer une ressource externe en JS et d'en afficher le contenu, connectons notre application au serveur REST développé en cours de programmation répartie !!!**
 
-1. **Téléchargez le serveur REST/JSON sur https://framadrop.org/r/iSYxsSDK4W#X5NBp4bHJ0xdUWQ9ogqWdpsRYr60E/YBQaRBX7Jtiy8=**
+1. **Téléchargez le serveur REST/JSON sur https://framadrop.org/r/qSK5FNKrYJ#/8DXgX6YRX2QxX5BI52XtZVt/353Mtx2pf7bnZGjN3Y=
 2. **Lancez le serveur dans un terminal** :
 	```bash
 	java -jar pizzaland-jar-with-dependencies.jar
