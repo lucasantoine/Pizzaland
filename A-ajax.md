@@ -39,7 +39,12 @@ Comme vu en cours (*récupérez si ce n'est pas déjà fait le pdf sur moodle !*
 
 Pour rappel, le support navigateur de l'API fetch est plutôt bon, mais il reste encore plusieurs points problématiques :
 
-<a href="https://caniuse.com/#feat=fetch"><img src="images/caniuse-fetch-2019-03-02.png" width="80%"></a>
+<a href="http://caniuse.com/#feat=fetch">
+	<picture>
+		<source type="image/webp" srcset="https://caniuse.bitsofco.de/image/fetch.webp">
+		<img src="https://caniuse.bitsofco.de/image/fetch.png" alt="Data on support for the fetch feature across the major browsers from caniuse.com">
+	</picture>
+</a>
 
 Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible avec l'API fetch**. C'est aussi le cas des versions d'android 4.4.4 et inférieures. Heureusement, un [polyfill](https://fr.wikipedia.org/wiki/Polyfill) développé par Github est disponible ici : https://github.com/github/fetch. Sur un projet réel il faudrait mettre en place ce polyfill, mais pour gagner du temps nous ignorerons cette problématique dans le TP (ne faites pas ça dans la vraie vie !).
 
@@ -130,7 +135,7 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 
 	Le résultat obtenu doit être ceci :
 
-	<a href="images/readme/ajax-news-innerhtml.jpg"><img src="images/readme/ajax-news-innerhtml.jpg" width="80%"></a>
+	<a href="images/readme/ajax-news-innerhtml.png"><img src="images/readme/ajax-news-innerhtml.png" width="80%"></a>
 
 8. Faites en sorte que le clic sur le `closeButton` fonctionne à nouveau
 
