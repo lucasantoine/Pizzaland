@@ -8,6 +8,7 @@ export default class PageRenderer {
 		}
 		if (this.contentElement) {
 			this.contentElement.innerHTML = page.render();
+			page.mount(this.contentElement);
 		}
 	}
 }

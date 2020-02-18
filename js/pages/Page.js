@@ -11,4 +11,9 @@ export default class Page extends Component {
 	renderTitle() {
 		return `<h1>${this.title}</h1>`;
 	}
+
+	mount(element) {
+		// par défaut, cette méthode ne fait rien
+		// ce sont les classes filles qui devront surcharger cette méthode
+	}
 }
