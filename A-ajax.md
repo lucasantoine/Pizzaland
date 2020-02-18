@@ -18,12 +18,12 @@
 
 1. Clonez le projet
 	```bash
-	mkdir -p ~/ws-js/tp3
-	git clone https://gitlab.univ-lille.fr/js/tp3.git ~/ws-js/tp3
+	mkdir -p ~/ws-js/tp4
+	git clone https://gitlab.univ-lille.fr/js/tp4.git ~/ws-js/tp4
 	```
 2. Lancez VSCodium :
 	```bash
-	codium ~/ws-js/tp3
+	codium ~/ws-js/tp4
 	```
 3. Ouvrez un terminal intégré dans VSCodium à l'aide du raccourci <kbd>CTRL</kbd>+<kbd>J</kbd> et tapez :
 	```bash
