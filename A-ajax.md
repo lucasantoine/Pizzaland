@@ -151,14 +151,22 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 
 	<a href="images/readme/pizzaland-server-get-pizzas.jpg"><img src="images/readme/pizzaland-server-get-pizzas.jpg" width="80%"></a>
 
-4. Dans le fichier `main.js` commencez par **supprimer** les lignes suivantes :
+4. Dans le fichier `main.js` commencez par :
+	- remplacez la ligne 10
+		```js
+		const homePage = new HomePage(data);
+		```
+		par
+		```js
+		const homePage = new HomePage([]);
+		```
+	- puis **supprimer** les lignes suivantes :
 	- ligne 1 :
 		```js
 		import data from './data.js';
 		```
-	- lignes 10 et 11 :
+	- ligne 11 :
 		```js
-		const homePage = new HomePage(data);
 		PageRenderer.renderPage(homePage); // affiche la liste des pizzas
 		```
 5. Toujours dans le fichier `main.js`, à la fin du fichier, lancez un appel AJAX vers l'URL http://localhost:8080/api/v1/pizzas. Puis, en vous inspirant de ce qui a été fait pour les news, créez une fonction `renderHome()` qui :
@@ -167,7 +175,7 @@ Comme on peut le voir, **aucune version d'Internet Explorer n'est compatible ave
 	- qui envoie le tableau de pizzas à la `homePage` et qui l'affiche grâce à la classe `PageRenderer` :
 		```js
 		if (data) {
-			homePage.data = data;
+			homePage.pizzas = data;
 		}
 		PageRenderer.renderPage(homePage);
 		```
